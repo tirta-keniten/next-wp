@@ -9,18 +9,21 @@ import HomeSection from '../components/home-section'
 import Head from 'next/head'
 import parse from 'html-react-parser'
 
-export default function Index({ page, primaryMenu }) {
-  let post = page
+export default function Page({ page, primaryMenu }) {
 
-  const { seo } = post
-  const yoastHead = parse(seo.fullHead)
+  if (typeof page == 'undefined') return (<></>)
+
+  let post = page
   
   const { defaultLocale, locale } = useRouter()
 
   if (defaultLocale != locale) {
-    post = page.translated.find((item) => (item.locale.id == locale))
+    post = page?.translated.find((item) => (item.locale.id == locale))
     if (!post) post = page
   }
+
+  const { seo } = post
+  const yoastHead = parse(seo.fullHead)
 
   return (
     <Layout>
@@ -59,7 +62,7 @@ export async function getStaticPaths() {
   const allPosts = await getAllPagesWithSlug()
 
   return {
-    paths: allPosts.edges.map(({ node }) => `/${node.slug}`) || [],
+    paths: allPosts.map(({ slug }) => `/${slug}`) || [],
     fallback: true,
   }
 }

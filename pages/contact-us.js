@@ -10,18 +10,21 @@ import Head from 'next/head'
 import parse from 'html-react-parser'
 import { useRouter } from "next/router"
 
-export default function Index({ page, primaryMenu }) {
-  let post = page
+export default function ContactUs({ page, primaryMenu }) {
+  
+  if (typeof page == 'undefined') return (<></>)
 
-  const { seo } = post
-  const yoastHead = parse(seo.fullHead)
+  let post = page
   
   const { defaultLocale, locale } = useRouter()
 
   if (defaultLocale != locale) {
-    post = page.translated.find((item) => (item.locale.id == locale))
+    post = page?.translated.find((item) => (item.locale.id == locale))
     if (!post) post = page
   }
+
+  const { seo } = post
+  const yoastHead = parse(seo.fullHead)
 
   return (
     <Layout>
