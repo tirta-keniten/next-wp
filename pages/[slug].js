@@ -9,7 +9,7 @@ import HomeSection from '../components/home-section'
 import Head from 'next/head'
 import parse from 'html-react-parser'
 
-export default function Page({ page, primaryMenu }) {
+export default function Index({ page, primaryMenu }) {
 
   if (typeof page == 'undefined') return (<></>)
 
